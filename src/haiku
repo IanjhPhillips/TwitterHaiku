@@ -46,6 +46,7 @@ let generateHaiku = () => {
 
         haiku = haiku.concat("\n");
     }
+    haiku = haiku.concat("\n");
     return haiku;
 }
 

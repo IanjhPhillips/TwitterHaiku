@@ -1,10 +1,9 @@
-console.log('The bot is starting');
+console.log('The bot is starting\n\n');
 
-var Twit = require('twit');
-var words = require('spache');
-var syll = require('syllable');
-var fs = require('fs');
-var config = require('./config');
+const Twit = require('twit');
+const config = require('./config');
+const Haiku = require ('./haiku');
 
 var T = new Twit(config);
 
+console.log(Haiku.generateHaiku());

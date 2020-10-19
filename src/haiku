@@ -1,0 +1,85 @@
+const spache = require('spache');
+const syll = require('syllable');
+
+const wordsLength = spache.length;
+
+/**
+ * Generates a terrible haiku.
+ * @returns String
+ */
+let generateHaiku = () => {
+    let searchSize = 150;
+    let lineSizes = [5, 7, 5];
+    let haiku = "";
+    for (let x=0; x<3; x++) {
+
+        let syllableOrder = getSyllableOrder(lineSizes[x]); //syllable order of words in a given line: eg: line => 1 2 2 1 or 2 3, etc
+
+        //console.log("generateHaiku: line " + x + " has syllable order " + syllableOrder);
+
+        for(let y=0; y<syllableOrder.length; y++) {
+            //console.log("generateHaiku: Generating word " + y + " in line " + x);
+            let valid = false;
+            let counter = 5;
+            do {
+                //console.log("generateHaiku: Getting new word slice.");
+                let wordSlice = getWordSlice(searchSize);
+                //console.log("generateHaiku: Wordslice length: " + wordSlice.length)
+                for(let z=0; z<wordSlice.length; z++) {
+                    let currentWord = wordSlice[z];
+                    //console.log("generateHaiku: checking if " + currentWord + " has " + syllableOrder[y] + " syllables.");
+                    if (syll(currentWord) == syllableOrder[y] && !(currentWord.length == 1 && !(currentWord == 'A' || currentWord == 'a'))) {
+                        haiku = haiku.concat((y==0)?(currentWord.charAt(0).toUpperCase() + currentWord.slice(1)):(' ' + currentWord)); //either Capital or with _spaceAtStart
+                        valid = true;
+                        //console.log("generateHaiku: Success! Found a match: " + currentWord);
+                        //console.log("generateHaiku: current haiku: " + haiku);
+                        break;
+                    }
+
+                }
+                if(!valid) {
+                    //console.log("generateHaiku: Failure! No matching words found, generating new slice.");
+                    counter--;
+                }
+            } while (!valid && counter>0)
+        }
+
+        haiku = haiku.concat("\n");
+    }
+    haiku = haiku.concat("\n");
+    return haiku;
+}
+
+/**
+ * Gets a slice of words from words given by spache
+ * @param size
+ * @returns {*}
+ */
+const getWordSlice = (size) => {
+    let position
+    do {
+        position = Math.floor(Math.random() * wordsLength);
+        //console.log("getWordSlice: position="+position+", size="+size);
+    }
+    while(!(position <= wordsLength-(size + 1)))
+    return spache.slice(position, position+size);
+}
+
+/**
+ * Generates a series of integers representing the syllables of each word in a given line.
+ * Ex: Line 1 has 5 syllables arranged as 2 1 2: "carry the luggage"
+ * @param size
+ * @returns {*}
+ */
+const getSyllableOrder = (s) => {
+    let syllables = [];
+    do {
+        const i = Math.floor(Math.random() * Math.min(3, s)) + 1;
+        s -= i;
+        syllables.push(i);
+    } while (s > 0);
+    //console.log("Syllable order: ")
+    return syllables;
+}
+
+exports.generateHaiku = generateHaiku;

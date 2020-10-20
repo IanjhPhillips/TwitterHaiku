@@ -10,3 +10,5 @@ A twitter bot that generates Haikus either:
 `$npm install`
 
 create .env file and add your access keys as shown in env_sample
+
+# Deployed Using Heroku

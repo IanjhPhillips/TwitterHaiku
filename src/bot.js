@@ -1,8 +1,6 @@
 require('dotenv').config();
 const Twit = require('twit');
-const config = require('./config');
 const Haiku = require ('./haiku');
-
 
 const T = new Twit({
     consumer_key: process.env.CONSUMER_KEY,

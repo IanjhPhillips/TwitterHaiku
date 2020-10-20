@@ -1,10 +1,15 @@
-console.log('The bot is starting\n\n');
-
+require('dotenv').config();
 const Twit = require('twit');
 const config = require('./config');
 const Haiku = require ('./haiku');
 
-const T = new Twit(config);
+
+const T = new Twit({
+    consumer_key: process.env.CONSUMER_KEY,
+    consumer_secret: process.env.CONSUMER_SECRET,
+    access_token: process.env.ACCESS_TOKEN,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET
+});
 
 /*
 let userStream = T.stream('statuses/filter', { track: '@haikubot12' });
@@ -22,8 +27,10 @@ function followed(eventMsg) {
 }
 */
 
+//console.log(Haiku.generateHaiku());
+
 sendHaiku();
-setInterval(sendHaiku, 1000*60*60);
+setInterval(sendHaiku, 1000*60*60*12);
 
 function sendTweet (tweet) {
 

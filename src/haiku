@@ -24,18 +24,35 @@ let generateHaiku = () => {
             do {
                 //console.log("generateHaiku: Getting new word slice.");
                 let wordSlice = getWordSlice(searchSize);
-                //console.log("generateHaiku: Wordslice length: " + wordSlice.length)
-                for(let z=0; z<wordSlice.length; z++) {
-                    let currentWord = wordSlice[z];
-                    //console.log("generateHaiku: checking if " + currentWord + " has " + syllableOrder[y] + " syllables.");
-                    if (syll(currentWord) == syllableOrder[y] && !(currentWord.length == 1 && !(currentWord == 'A' || currentWord == 'a'))) {
-                        haiku = haiku.concat((y==0)?(currentWord.charAt(0).toUpperCase() + currentWord.slice(1)):(' ' + currentWord)); //either Capital or with _spaceAtStart
-                        valid = true;
-                        //console.log("generateHaiku: Success! Found a match: " + currentWord);
-                        //console.log("generateHaiku: current haiku: " + haiku);
-                        break;
+                let sliced = wordSlice.sliced;
+                let countUp = wordSlice.countUp;
+                console.log("generateHaiku: Wordslice length: " + sliced.length)
+                console.log(countUp);
+                if (countUp && !valid) {
+                    for(let z=0; z<sliced.length; z++) {
+                        let currentWord = sliced[z];
+                        //console.log("generateHaiku: checking if " + currentWord + " has " + syllableOrder[y] + " syllables.");
+                        if (syll(currentWord) == syllableOrder[y] && !(currentWord.length == 1 && !(currentWord == 'A' || currentWord == 'a'))) {
+                            haiku = haiku.concat((y==0)?(currentWord.charAt(0).toUpperCase() + currentWord.slice(1)):(' ' + currentWord)); //either Capital or with _spaceAtStart
+                            valid = true;
+                            //console.log("generateHaiku: Success! Found a match: " + currentWord);
+                            //console.log("generateHaiku: current haiku: " + haiku);
+                            break;
+                        }
                     }
-
+                }
+                else if (!valid) {
+                    for (let z = sliced.length - 1; z >= 0; z--) {
+                        let currentWord = sliced[z];
+                        //console.log("generateHaiku: checking if " + currentWord + " has " + syllableOrder[y] + " syllables.");
+                        if (syll(currentWord) == syllableOrder[y] && !(currentWord.length == 1 && !(currentWord == 'A' || currentWord == 'a'))) {
+                            haiku = haiku.concat((y == 0) ? (currentWord.charAt(0).toUpperCase() + currentWord.slice(1)) : (' ' + currentWord)); //either Capital or with _spaceAtStart
+                            valid = true;
+                            //console.log("generateHaiku: Success! Found a match: " + currentWord);
+                            //console.log("generateHaiku: current haiku: " + haiku);
+                            break;
+                        }
+                    }
                 }
                 if(!valid) {
                     //console.log("generateHaiku: Failure! No matching words found, generating new slice.");
@@ -62,7 +79,10 @@ const getWordSlice = (size) => {
         //console.log("getWordSlice: position="+position+", size="+size);
     }
     while(!(position <= wordsLength-(size + 1)))
-    return spache.slice(position, position+size);
+    return {
+        sliced:spache.slice(position, position+size),
+        countUp:(position < wordsLength/2)
+    };
 }
 
 /**

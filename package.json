@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/IanjhPhillips/TwitterHaiku#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "spache": "^1.1.5",
     "syllable": "^4.1.0",
     "twit": "^2.2.11"

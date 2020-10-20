@@ -1,10 +1,10 @@
-#Twitter Haiku Bot
+# Twitter Haiku Bot
 
-##What?
+# #What?
 A twitter bot that generates Haikus either:
--Randomly
--Based on posts on twitter
+- Randomly
+- Based on posts on twitter
 
-#Setup
-$npm install
+# Setup
+`$npm install`
 create .env file and add your access keys as shown in env_sample
